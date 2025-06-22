@@ -5,9 +5,15 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "image.tmdb.org",
+				hostname: "s4.anilist.co",
 				port: "",
-				pathname: "/t/p/**",
+				pathname: "/file/anilistcdn/**",
+			},
+			{
+				protocol: "https",
+				hostname: "img1.ak.crunchyroll.com",
+				port: "",
+				pathname: "/**",
 			},
 		],
 	},

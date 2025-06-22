@@ -3,13 +3,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import type { Movie } from "../types/movie";
-import { getImageUrl } from "../utils/tmdb";
+import type { Anime } from "../types/movie";
+import { getBestCoverImage } from "../utils/anilist";
 import { RatingIndicator } from "./RatingIndicator";
 
 interface MovieRowProps {
 	title: string;
-	movies: Movie[];
+	movies: Anime[];
 }
 
 export function MovieRow({ title, movies }: MovieRowProps) {
@@ -39,11 +39,20 @@ export function MovieRow({ title, movies }: MovieRowProps) {
 			}
 		};
 
+		const handleWheel = (e: WheelEvent) => {
+			if (rowRef.current) {
+				e.preventDefault();
+				rowRef.current.scrollLeft += e.deltaY;
+			}
+		};
+
 		const currentRow = rowRef.current;
 		currentRow?.addEventListener("scroll", handleScroll);
+		currentRow?.addEventListener("wheel", handleWheel, { passive: false });
 
 		return () => {
 			currentRow?.removeEventListener("scroll", handleScroll);
+			currentRow?.removeEventListener("wheel", handleWheel);
 		};
 	}, [storageKey]);
 
@@ -64,7 +73,7 @@ export function MovieRow({ title, movies }: MovieRowProps) {
 			<div className="group relative">
 				<button
 					type="button"
-					className="absolute left-2 top-[calc(50%+32px)] -translate-y-1/2 z-40 bg-black/50 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+					className="absolute left-2 top-1/2 -translate-y-1/2 z-40 bg-black/50 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
 					onClick={() => scroll("left")}
 				>
 					<ChevronLeft className="w-6 h-6 text-white" />
@@ -72,37 +81,42 @@ export function MovieRow({ title, movies }: MovieRowProps) {
 
 				<div
 					ref={rowRef}
-					className="flex gap-3 overflow-x-scroll scrollbar-hide scroll-smooth py-4"
+					className="flex gap-4 overflow-x-scroll overflow-y-hidden scrollbar-hide scroll-smooth"
 				>
-					{movies.map((movie) => (
-						<Link
-							key={movie.id}
-							href={`/movie/${movie.id}`}
-							className="flex-none w-80 group transition-transform hover:scale-105"
-						>
-							<h3 className="text-white mb-2 text-base line-clamp-2 text-center font-semibold">
-								{movie.title}
-							</h3>
-							<div className="relative w-full aspect-video rounded-lg overflow-hidden">
-								<Image
-									src={getImageUrl(movie.backdrop_path, "w780")}
-									alt={movie.title}
-									fill
-									className="object-cover"
-									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 320px"
-								/>
-								<div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-								<RatingIndicator
-									rating={movie.vote_average}
-									className="absolute bottom-2 right-2"
-								/>
-							</div>
-						</Link>
-					))}
+					{movies.map((movie) => {
+						const title = movie.title.english || movie.title.romaji;
+						const coverImage = getBestCoverImage(movie.coverImage);
+
+						return (
+							<Link
+								key={movie.id}
+								href={`/movie/${movie.id}`}
+								className="flex-none w-48 group transition-transform hover:scale-105"
+							>
+								<div className="relative">
+									<Image
+										src={coverImage}
+										alt={title}
+										width={192}
+										height={288}
+										className="w-full h-72 object-cover rounded-lg"
+										sizes="192px"
+									/>
+									<RatingIndicator
+										rating={movie.averageScore / 10}
+										className="absolute bottom-2 right-2"
+									/>
+								</div>
+								<h3 className="text-white mt-2 text-base line-clamp-2 text-center font-bold">
+									{title}
+								</h3>
+							</Link>
+						);
+					})}
 				</div>
 				<button
 					type="button"
-					className="absolute right-2 top-[calc(50%+32px)] -translate-y-1/2 z-40 bg-black/50 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+					className="absolute right-2 top-1/2 -translate-y-1/2 z-40 bg-black/50 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
 					onClick={() => scroll("right")}
 				>
 					<ChevronRight className="w-6 h-6 text-white" />

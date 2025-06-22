@@ -1,26 +1,70 @@
-export interface Movie {
+export interface Anime {
 	id: number;
-	title: string;
-	overview: string;
-	poster_path: string;
-	backdrop_path: string;
-	release_date: string;
-	vote_average: number;
-}
-
-export interface MovieResponse {
-	results: Movie[];
-}
-
-export interface Cast {
-	id: number;
-	name: string;
-	character: string;
-}
-
-export interface MovieDetail extends Movie {
-	credits: {
-		cast: Cast[];
+	title: {
+		romaji: string;
+		english?: string;
+		native: string;
 	};
-	imdb_id: string;
+	description: string;
+	coverImage: {
+		large: string;
+		extraLarge?: string;
+		medium: string;
+	};
+	bannerImage?: string;
+	startDate: {
+		year: number;
+		month: number;
+		day: number;
+	};
+	averageScore: number;
+	genres: string[];
+	format: string;
+	status: string;
+}
+
+export interface AnimeResponse {
+	data: {
+		Page: {
+			media: Anime[];
+		};
+	};
+}
+
+export interface Character {
+	id: number;
+	name: {
+		full: string;
+	};
+	image: {
+		medium: string;
+	};
+}
+
+export interface Voice {
+	id: number;
+	name: {
+		full: string;
+	};
+	image: {
+		medium: string;
+	};
+	language: string;
+}
+
+export interface CharacterEdge {
+	id: number;
+	node: Character;
+	voiceActors: Voice[];
+	role: string;
+}
+
+export interface AnimeDetail extends Anime {
+	characters: {
+		edges: CharacterEdge[];
+	};
+	externalLinks: Array<{
+		url: string;
+		site: string;
+	}>;
 }
