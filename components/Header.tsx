@@ -12,16 +12,16 @@ export function Header() {
 					<Link href="/" className="font-semibold">
 						HOME
 					</Link>
-					<Link href="/anime" className="font-semibold">
+					<Link href="/" className="font-semibold">
 						ANIME
 					</Link>
-					<Link href="/movies" className="font-semibold">
+					<Link href="/" className="font-semibold">
 						MOVIES
 					</Link>
-					<Link href="/manga" className="font-semibold">
+					<Link href="/" className="font-semibold">
 						MANGA
 					</Link>
-					<Link href="/my-list" className="font-semibold">
+					<Link href="/" className="font-semibold">
 						MY LIST
 					</Link>
 				</div>
