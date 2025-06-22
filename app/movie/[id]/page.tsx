@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BackButton } from "../../../components/BackButton";
+import { RatingIndicator } from "../../../components/RatingIndicator";
 import { getImageUrl, getMovieById } from "../../../utils/tmdb";
 
 interface MoviePageProps {
@@ -37,41 +38,67 @@ export default async function MoviePage({ params }: MoviePageProps) {
 					<div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 				</div>
 
-				<div className="relative p-8">
-					<BackButton href="/" />
-				</div>
-
-				<div className="relative pt-32 px-8 max-w-4xl">
-					<h1 className="text-6xl font-bold mb-6">{movie.title}</h1>
-					<div className="flex items-center gap-4 text-lg text-white/80 mb-8">
-						<span>{new Date(movie.release_date).getFullYear()}</span>
-						<span className="px-3 py-1 bg-white/20 rounded">
-							{Math.round(movie.vote_average * 10)}% Match
-						</span>
+				<div className="relative h-full flex flex-col">
+					<div className="absolute top-8 left-8 z-10">
+						<BackButton href="/" />
 					</div>
-					<p className="text-xl text-white/90 mb-12 max-w-2xl">
-						{movie.overview}
-					</p>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-						<div>
-							<h3 className="text-lg font-semibold mb-4">Cast</h3>
-							<p className="text-white/80">Cast information would go here...</p>
-						</div>
-						<div>
-							<h3 className="text-lg font-semibold mb-4">Details</h3>
-							<div className="space-y-2 text-white/80">
-								<p>
-									<span className="font-medium">Release Date:</span>{" "}
-									{movie.release_date}
-								</p>
-								<p>
-									<span className="font-medium">Rating:</span>{" "}
-									{movie.vote_average}/10
-								</p>
-								<p>
-									<span className="font-medium">Genre:</span> Action, Sci-Fi
-								</p>
+					<div className="flex-1 flex items-center justify-center px-8">
+						<div
+							className="flex gap-8 w-full max-w-6xl"
+							style={{ viewTransitionName: "movie-details" }}
+						>
+							<div className="relative w-64 h-96 rounded-lg overflow-hidden flex-shrink-0">
+								<Image
+									src={getImageUrl(movie.poster_path, "w500")}
+									alt={movie.title}
+									fill
+									className="object-cover"
+									sizes="(max-width: 768px) 50vw, 256px"
+								/>
+							</div>
+
+							<div className="flex-1">
+								<div className="flex items-start gap-4 mb-4">
+									<h1 className="text-6xl font-bold text-white flex-1">
+										{movie.title}
+									</h1>
+								</div>
+								<p className="text-lg text-white/80 mb-8">{movie.overview}</p>
+
+								<div className="mb-8">
+									<h2 className="text-lg font-semibold text-white/60 mb-4">
+										CAST
+									</h2>
+									<div className="grid grid-cols-3 gap-4">
+										{movie.credits.cast.slice(0, 6).map((actor) => (
+											<div key={actor.id} className="text-white/80">
+												<p className="font-medium">{actor.name}</p>
+												<p className="text-sm text-white/60">
+													{actor.character}
+												</p>
+											</div>
+										))}
+									</div>
+								</div>
+
+								<div>
+									<h2 className="text-lg font-semibold text-white/60 mb-8">
+										RATINGS
+									</h2>
+									<div className="flex gap-8">
+										<div className="flex items-center gap-2 relative">
+											<RatingIndicator
+												rating={movie.vote_average}
+												size="md"
+												className="absolute"
+											/>
+											<span className="text-white/90 font-medium pl-20">
+												User Rating
+											</span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

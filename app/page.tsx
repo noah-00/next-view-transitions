@@ -4,17 +4,22 @@ import { MovieRow } from "../components/MovieRow";
 import { getPopularMovies } from "../utils/tmdb";
 
 export default async function Home() {
-	const featuredMovie = await getPopularMovies();
+	const movies = await getPopularMovies();
+	const featuredMovie = movies[0];
+
+	if (!featuredMovie) {
+		return null;
+	}
 
 	return (
-		<div className="min-h-screen bg-black">
+		<div>
 			<Header />
-			<FeaturedMovie movie={featuredMovie[0]} />
-			<div className="space-y-8">
-				<MovieRow title="Popular Movies" movies={featuredMovie} />
-				<MovieRow title="Trending Now" movies={featuredMovie} />
-				<MovieRow title="Action Movies" movies={featuredMovie} />
-			</div>
+			<main>
+				<FeaturedMovie movie={featuredMovie} />
+				<div className="fixed bottom-0 left-0 right-0 pb-4 px-8 bg-gradient-to-t from-black to-transparent">
+					<MovieRow title="Your Next Watch" movies={movies} />
+				</div>
+			</main>
 		</div>
 	);
 }

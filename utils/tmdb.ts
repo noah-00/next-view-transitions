@@ -40,7 +40,7 @@ export const getMovieById = async (id: string) => {
 
 export const getImageUrl = (
 	path: string,
-	size: "original" | "w500" = "original",
+	size: "original" | "w500" | "w780" = "original",
 ) => {
 	return `${IMAGE_BASE_URL}/${size}${path}`;
 };
