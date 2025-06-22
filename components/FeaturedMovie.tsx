@@ -12,7 +12,7 @@ interface FeaturedMovieProps {
 export function FeaturedMovie({ movie }: FeaturedMovieProps) {
 	const title = movie.title.english || movie.title.romaji;
 	const year = movie.startDate?.year;
-	const description = movie.description?.replace(/<[^>]*>/g, "") || "";
+	// const description = movie.description?.replace(/<[^>]*>/g, "") || "";
 
 	const backgroundImage =
 		movie.bannerImage || getBestCoverImage(movie.coverImage);
@@ -55,9 +55,9 @@ export function FeaturedMovie({ movie }: FeaturedMovieProps) {
 						</span>
 					</div>
 				</div>
-				<p className="text-base text-white/80 mb-4 line-clamp-3 font-semibold">
+				{/* <p className="text-base text-white/80 mb-4 line-clamp-3 font-semibold">
 					{description}
-				</p>
+				</p> */}
 				<div className="flex items-center gap-4">
 					<button
 						type="button"
