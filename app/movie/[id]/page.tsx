@@ -76,10 +76,12 @@ export default async function MoviePage({ params }: MoviePageProps) {
 										{title}
 									</h1>
 								</div>
-								<p className="text-lg text-white/80 mb-8">{description}</p>
+								<p className="text-lg text-white/70 mb-8 font-semibold">
+									{description}
+								</p>
 
 								<div className="mb-8">
-									<h2 className="text-lg font-semibold text-white/60 mb-4">
+									<h2 className="text-lg font-semibold text-white mb-4">
 										CHARACTERS
 									</h2>
 									<div className="grid grid-cols-3 gap-4">
@@ -87,7 +89,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
 											?.slice(0, 6)
 											.map((characterEdge) => (
 												<div key={characterEdge.id} className="text-white/80">
-													<p className="font-medium">
+													<p className="font-semibold">
 														{characterEdge.node.name.full}
 													</p>
 													<p className="text-sm text-white/60">
@@ -100,7 +102,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
 								</div>
 
 								<div>
-									<h2 className="text-lg font-semibold text-white/60 mb-8">
+									<h2 className="text-lg font-semibold text-white mb-8">
 										RATINGS
 									</h2>
 									<div className="flex gap-8">
@@ -110,7 +112,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
 												size="md"
 												className="absolute"
 											/>
-											<span className="text-white/90 font-medium pl-20">
+											<span className="text-white/80 font-semibold pl-20">
 												User Rating
 											</span>
 										</div>
