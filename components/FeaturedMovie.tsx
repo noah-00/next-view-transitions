@@ -34,7 +34,7 @@ export function FeaturedMovie({ movie }: FeaturedMovieProps) {
 					priority
 				/>
 				<div className="absolute inset-0 bg-black/50" />
-				<div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+				<div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
 			</div>
 
 			<div
