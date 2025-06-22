@@ -41,8 +41,13 @@ export function MovieRow({ title, movies }: MovieRowProps) {
 
 		const handleWheel = (e: WheelEvent) => {
 			if (rowRef.current) {
-				e.preventDefault();
-				rowRef.current.scrollLeft += e.deltaY;
+				if (e.deltaX !== 0) {
+					return;
+				}
+				if (e.deltaY !== 0) {
+					e.preventDefault();
+					rowRef.current.scrollLeft += e.deltaY;
+				}
 			}
 		};
 
@@ -91,7 +96,7 @@ export function MovieRow({ title, movies }: MovieRowProps) {
 							<Link
 								key={movie.id}
 								href={`/movie/${movie.id}`}
-								className="flex-none w-48 group transition-transform hover:scale-105"
+								className="flex-none w-44 group transition-transform hover:scale-105"
 							>
 								<div className="relative">
 									<Image
